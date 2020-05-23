@@ -1,5 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:tv_test/blocs/details_bloc.dart';
 import 'package:tv_test/handlers/color_handler.dart';
 import 'package:tv_test/handlers/text_handler.dart';
 import 'package:tv_test/model/show.dart';
@@ -13,7 +14,15 @@ class DetailsPage extends StatefulWidget {
 }
 
 class _DetailsPageState extends State<DetailsPage> {
+  final DetailsBloc bloc = DetailsBloc();
   bool expanded = false;
+
+  @override
+  void initState() {
+    super.initState();
+    bloc.getShowById(widget.show.id);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -41,8 +50,8 @@ class _DetailsPageState extends State<DetailsPage> {
                 begin: FractionalOffset.topCenter,
                 end: FractionalOffset.bottomCenter,
                 colors: [
-                  Colors.black.withOpacity(0.2),
-                  Colors.black,
+                  colors["dark_background"].withOpacity(0.2),
+                  colors["dark_background"],
                 ],
               ),
             ),
@@ -73,10 +82,42 @@ class _DetailsPageState extends State<DetailsPage> {
                       Text(
                         widget.show.name,
                         style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 40,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      SizedBox(height: 8),
+                      Text(
+                        widget.show.premiered != null
+                            ? '${widget.show.premiered.year} - ${widget.show.runtime} min per episode'
+                            : '${widget.show.runtime} min per episode',
+                        style: TextStyle(
                             color: Colors.white,
-                            fontSize: 40,
+                            fontSize: 16,
                             fontWeight: FontWeight.bold),
                       ),
+                      SizedBox(height: 8),
+                      Wrap(
+                        children: widget.show.genres.map<Widget>((genre) {
+                          return Container(
+                            margin: EdgeInsets.only(right: 8),
+                            padding: EdgeInsets.all(4),
+                            decoration: BoxDecoration(
+                                border: Border.all(
+                                    color: colors["red_primary"], width: 1.5),
+                                borderRadius: BorderRadius.circular(4.0)),
+                            child: Text(
+                              genre,
+                              style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.bold),
+                            ),
+                          );
+                        }).toList(),
+                      ),
+                      SizedBox(height: 8),
                       Column(
                         children: <Widget>[
                           AnimatedContainer(
@@ -111,7 +152,19 @@ class _DetailsPageState extends State<DetailsPage> {
                       ),
                     ],
                   ),
-                )
+                ),
+                StreamBuilder<Object>(
+                    stream: bloc.detailsObservable,
+                    builder: (context, snapshot) {
+                      if (snapshot.data == null) {
+                        return Container(
+                          child: Center(
+                            child: CircularProgressIndicator(),
+                          ),
+                        );
+                      }
+                      return ExpansionTile(title: null);
+                    })
               ],
             ),
           )

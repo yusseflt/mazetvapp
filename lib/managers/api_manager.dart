@@ -11,4 +11,14 @@ class ApiManager {
       throw e;
     }
   }
+
+  Future getShowsById(id) async {
+    try {
+      var res = await RequestHandler.makeGet(
+          "$BASE_API_URL/shows/$id?embed[]=episodes&embed[]=cast&embed[]=seasons");
+      return res;
+    } catch (e) {
+      throw e;
+    }
+  }
 }
