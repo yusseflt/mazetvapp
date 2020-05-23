@@ -40,10 +40,12 @@ class _ShowTileState extends State<ShowTile> {
               ),
             ),
             SizedBox(width: 16),
-            Text(
-              '${widget.show.name}',
-              style:
-                  TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+            Expanded(
+              child: Text(
+                '${widget.show.name}',
+                style:
+                    TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+              ),
             ),
           ],
         ),

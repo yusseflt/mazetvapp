@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:tv_test/blocs/home_bloc.dart';
 import 'package:tv_test/handlers/color_handler.dart';
 import 'package:tv_test/model/show.dart';
+import 'package:tv_test/widgets/common/search.dart';
+import 'package:tv_test/widgets/common/show_card.dart';
 import 'package:tv_test/widgets/common/show_tile.dart';
 
 class HomePage extends StatefulWidget {
@@ -14,6 +16,7 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   final HomeBloc bloc = HomeBloc();
   final ScrollController _controller = ScrollController();
+  String query;
   bool loadingMore;
   int page;
 
@@ -51,19 +54,75 @@ class _HomePageState extends State<HomePage> {
               );
             }
 
-            return ListView.builder(
-                controller: _controller,
-                itemCount: snapshot.data.length,
-                itemBuilder: (context, index) {
-                  if (index == snapshot.data.length - 1 &&
-                      loadingMore == true) {
-                    return Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Center(child: CircularProgressIndicator()),
-                    );
-                  }
-                  return ShowTile(snapshot.data[index]);
-                });
+            return Container(
+              padding: EdgeInsets.all(8.0),
+              child: Column(
+                children: <Widget>[
+                  SafeArea(
+                    child: Container(
+                      height: 45,
+                      margin: EdgeInsets.symmetric(horizontal: 16.0),
+                      color: colors['dark_primary'],
+                      child: InkWell(
+                        onTap: () {
+                          showSearch(
+                            context: context,
+                            delegate: Search(snapshot.data),
+                            query: query,
+                          );
+                        },
+                        child: IgnorePointer(
+                          child: TextField(
+                            decoration: InputDecoration(
+                              prefixIcon: Icon(
+                                Icons.search,
+                                color: colors['dark_secondary'],
+                              ),
+                              labelText: 'Search',
+                              labelStyle: TextStyle(
+                                color: colors['dark_secondary'],
+                              ),
+                              enabledBorder: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(8.0),
+                                borderSide: BorderSide(
+                                  color: Colors.transparent,
+                                  width: 1,
+                                ),
+                              ),
+                              border: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(8.0),
+                                borderSide: BorderSide(
+                                  color: colors['red_primary'],
+                                  width: 1,
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                  SizedBox(height: 8),
+                  Flexible(
+                    child: GridView.builder(
+                        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                            crossAxisCount: 2),
+                        controller: _controller,
+                        itemCount: snapshot.data.length,
+                        itemBuilder: (context, index) {
+                          if (index == snapshot.data.length - 1 &&
+                              loadingMore == true) {
+                            return Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Center(child: CircularProgressIndicator()),
+                            );
+                          }
+                          return ShowCard(snapshot.data[index]);
+                        }),
+                  ),
+                ],
+              ),
+            );
           }),
     );
   }

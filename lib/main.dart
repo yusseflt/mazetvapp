@@ -17,9 +17,7 @@ class MyApp extends StatelessWidget {
         );
       },
       theme: ThemeData(
-          primarySwatch: Colors.blue,
-          backgroundColor: colors["dark_background"],
-          fontFamily: 'OpenSans'),
+          backgroundColor: colors["dark_background"], fontFamily: 'OpenSans'),
       home: BottomNavigator(),
     );
   }

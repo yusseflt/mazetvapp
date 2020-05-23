@@ -3,7 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:tv_test/blocs/details_bloc.dart';
 import 'package:tv_test/handlers/color_handler.dart';
 import 'package:tv_test/handlers/text_handler.dart';
+import 'package:tv_test/model/embeded.dart';
 import 'package:tv_test/model/show.dart';
+import 'package:tv_test/widgets/Details/episodes_dialog.dart';
 
 class DetailsPage extends StatefulWidget {
   final Show show;
@@ -15,7 +17,7 @@ class DetailsPage extends StatefulWidget {
 
 class _DetailsPageState extends State<DetailsPage> {
   final DetailsBloc bloc = DetailsBloc();
-  bool expanded = false;
+  bool expandedSummary = false;
 
   @override
   void initState() {
@@ -29,19 +31,20 @@ class _DetailsPageState extends State<DetailsPage> {
       backgroundColor: colors["dark_background"],
       body: Stack(
         children: <Widget>[
-          AspectRatio(
-            aspectRatio: 487 / 451,
-            child: Container(
-              decoration: BoxDecoration(
-                  image: DecorationImage(
-                fit: BoxFit.fitWidth,
-                alignment: FractionalOffset.topCenter,
-                image: widget.show.image.original == null
-                    ? null
-                    : CachedNetworkImageProvider(widget.show.image.original),
-              )),
-            ),
-          ),
+          widget.show.image.original == null
+              ? Container()
+              : AspectRatio(
+                  aspectRatio: 487 / 451,
+                  child: Container(
+                    decoration: BoxDecoration(
+                        image: DecorationImage(
+                      fit: BoxFit.fitWidth,
+                      alignment: FractionalOffset.topCenter,
+                      image: CachedNetworkImageProvider(
+                          widget.show.image.original),
+                    )),
+                  ),
+                ),
           Container(
             width: MediaQuery.of(context).size.width,
             height: MediaQuery.of(context).size.height,
@@ -118,44 +121,12 @@ class _DetailsPageState extends State<DetailsPage> {
                         }).toList(),
                       ),
                       SizedBox(height: 8),
-                      Column(
-                        children: <Widget>[
-                          AnimatedContainer(
-                            duration: Duration(milliseconds: 300),
-                            curve: Curves.easeIn,
-                            height: expanded == true ? null : 80,
-                            child: Text(
-                              removeTags(widget.show.summary),
-                              style:
-                                  TextStyle(color: Colors.white, fontSize: 16),
-                            ),
-                          ),
-                          FlatButton(
-                            onPressed: () {
-                              setState(() {
-                                expanded = !expanded;
-                              });
-                            },
-                            child: Container(
-                              width: MediaQuery.of(context).size.width,
-                              child: RotatedBox(
-                                quarterTurns: expanded ? 2 : 0,
-                                child: Icon(
-                                  Icons.keyboard_arrow_down,
-                                  color: Colors.white,
-                                  size: 32,
-                                ),
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
                     ],
                   ),
                 ),
-                StreamBuilder<Object>(
+                StreamBuilder(
                     stream: bloc.detailsObservable,
-                    builder: (context, snapshot) {
+                    builder: (context, AsyncSnapshot<Embedded> snapshot) {
                       if (snapshot.data == null) {
                         return Container(
                           child: Center(
@@ -163,7 +134,191 @@ class _DetailsPageState extends State<DetailsPage> {
                           ),
                         );
                       }
-                      return ExpansionTile(title: null);
+                      return Container(
+                        decoration: BoxDecoration(
+                          color: colors["dark_background"],
+                          borderRadius: BorderRadius.only(
+                            topLeft: Radius.circular(24.0),
+                            topRight: Radius.circular(24.0),
+                          ),
+                        ),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: <Widget>[
+                            Padding(
+                              padding: const EdgeInsets.only(
+                                  left: 16.0, right: 16.0, top: 16.0),
+                              child: Text(
+                                'Summary',
+                                style: TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 18,
+                                    fontWeight: FontWeight.bold),
+                              ),
+                            ),
+                            AnimatedContainer(
+                              padding: EdgeInsets.all(16.0),
+                              duration: Duration(milliseconds: 300),
+                              curve: Curves.easeIn,
+                              height: expandedSummary == true ? null : 80,
+                              child: Text(
+                                removeTags(widget.show.summary),
+                                style: TextStyle(
+                                    color: Colors.white, fontSize: 16),
+                              ),
+                            ),
+                            FlatButton(
+                              onPressed: () {
+                                setState(() {
+                                  expandedSummary = !expandedSummary;
+                                });
+                              },
+                              child: Container(
+                                width: MediaQuery.of(context).size.width,
+                                child: RotatedBox(
+                                  quarterTurns: expandedSummary ? 2 : 0,
+                                  child: Icon(
+                                    Icons.keyboard_arrow_down,
+                                    color: Colors.white,
+                                    size: 32,
+                                  ),
+                                ),
+                              ),
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.all(16.0),
+                              child: Text(
+                                'Cast',
+                                style: TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 18,
+                                    fontWeight: FontWeight.bold),
+                              ),
+                            ),
+                            Container(
+                              height: 120.0,
+                              child: ListView(
+                                scrollDirection: Axis.horizontal,
+                                shrinkWrap: true,
+                                children: snapshot.data.cast
+                                    .map<Widget>(
+                                      (person) => Container(
+                                        width: 100.0,
+                                        child: Column(
+                                          children: <Widget>[
+                                            Container(
+                                              height: 60.0,
+                                              width: 60.0,
+                                              child: CircleAvatar(
+                                                backgroundImage:
+                                                    CachedNetworkImageProvider(
+                                                        person.person.image
+                                                                    .medium !=
+                                                                null
+                                                            ? person.person
+                                                                .image.medium
+                                                            : ''),
+                                              ),
+                                            ),
+                                            SizedBox(height: 4),
+                                            Text(
+                                              person.person.name,
+                                              textAlign: TextAlign.center,
+                                              style: TextStyle(
+                                                  color: Colors.white,
+                                                  fontSize: 14),
+                                            )
+                                          ],
+                                        ),
+                                      ),
+                                    )
+                                    .toList(),
+                              ),
+                            ),
+                            Column(
+                              children: snapshot.data.seasons
+                                  .map<Widget>(
+                                    (season) => Theme(
+                                      data: ThemeData(
+                                          unselectedWidgetColor: Colors.white,
+                                          accentColor: colors['red_primary']),
+                                      child: ExpansionTile(
+                                        title: Text(
+                                          "Season ${season.number.toString()}",
+                                          style: TextStyle(
+                                              color: Colors.white,
+                                              fontSize: 16),
+                                        ),
+                                        children: snapshot.data.episodes
+                                            .map<Widget>(
+                                              (episode) => episode.season ==
+                                                      season.number
+                                                  ? Container(
+                                                      decoration: BoxDecoration(
+                                                          color: colors[
+                                                              "dark_primary"]),
+                                                      margin:
+                                                          EdgeInsets.symmetric(
+                                                              vertical: 2.0),
+                                                      child: ListTile(
+                                                        onTap: () {
+                                                          showDialog(
+                                                              context: context,
+                                                              builder: (context) =>
+                                                                  EpisodesDialog(
+                                                                      episode));
+                                                        },
+                                                        title: Text(
+                                                            episode.name
+                                                                .toString(),
+                                                            style: TextStyle(
+                                                                color: Colors
+                                                                    .white,
+                                                                fontSize: 16)),
+                                                        trailing: Icon(
+                                                          Icons.info_outline,
+                                                          color: Colors.white,
+                                                          size: 24,
+                                                        ),
+                                                        leading:
+                                                            CachedNetworkImage(
+                                                          width: 100,
+                                                          imageUrl: episode
+                                                                      .image
+                                                                      .medium !=
+                                                                  null
+                                                              ? episode
+                                                                  .image.medium
+                                                              : '',
+                                                          errorWidget: (context,
+                                                                  string, d) =>
+                                                              Container(
+                                                            width: 24,
+                                                            height: 24,
+                                                            child: Center(
+                                                              child: Icon(
+                                                                Icons
+                                                                    .broken_image,
+                                                                color: colors[
+                                                                    'red_primary'],
+                                                                size: 18,
+                                                              ),
+                                                            ),
+                                                          ),
+                                                        ),
+                                                      ),
+                                                    )
+                                                  : Container(),
+                                            )
+                                            .toList(),
+                                      ),
+                                    ),
+                                  )
+                                  .toList(),
+                            ),
+                          ],
+                        ),
+                      );
                     })
               ],
             ),

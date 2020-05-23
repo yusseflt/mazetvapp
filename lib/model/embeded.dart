@@ -80,7 +80,7 @@ class Character {
   int id;
   String url;
   String name;
-  Image image;
+  Img image;
   Links links;
 
   Character({
@@ -95,7 +95,7 @@ class Character {
         id: json["id"],
         url: json["url"],
         name: json["name"],
-        image: json["image"] == null ? null : Image.fromJson(json["image"]),
+        image: json["image"] == null ? null : Img.fromJson(json["image"]),
         links: Links.fromJson(json["_links"]),
       );
 
@@ -148,7 +148,7 @@ class Person {
   DateTime birthday;
   dynamic deathday;
   Gender gender;
-  Image image;
+  Img image;
   Links links;
 
   Person({
@@ -172,7 +172,7 @@ class Person {
             json["birthday"] == null ? null : DateTime.parse(json["birthday"]),
         deathday: json["deathday"],
         gender: genderValues.map[json["gender"]],
-        image: Image.fromJson(json["image"]),
+        image: Img.fromJson(json["image"]),
         links: Links.fromJson(json["_links"]),
       );
 
@@ -249,7 +249,7 @@ class Episode {
   Airtime airtime;
   DateTime airstamp;
   int runtime;
-  Image image;
+  Img image;
   String summary;
   Links links;
 
@@ -278,7 +278,7 @@ class Episode {
         airtime: airtimeValues.map[json["airtime"]],
         airstamp: DateTime.parse(json["airstamp"]),
         runtime: json["runtime"],
-        image: Image.fromJson(json["image"]),
+        image: Img.fromJson(json["image"]),
         summary: json["summary"],
         links: Links.fromJson(json["_links"]),
       );
@@ -315,7 +315,7 @@ class Season {
   DateTime endDate;
   Network network;
   dynamic webChannel;
-  Image image;
+  Img image;
   String summary;
   Links links;
 
@@ -347,7 +347,7 @@ class Season {
             json["endDate"] == null ? null : DateTime.tryParse(json["endDate"]),
         network: Network.fromJson(json["network"]),
         webChannel: json["webChannel"],
-        image: Image.fromJson(json["image"]),
+        image: Img.fromJson(json["image"]),
         summary: json["summary"],
         links: Links.fromJson(json["_links"]),
       );
@@ -367,30 +367,6 @@ class Season {
         "image": image.toJson(),
         "summary": summary,
         "_links": links.toJson(),
-      };
-}
-
-class Network {
-  int id;
-  String name;
-  Country country;
-
-  Network({
-    this.id,
-    this.name,
-    this.country,
-  });
-
-  factory Network.fromJson(Map<String, dynamic> json) => Network(
-        id: json["id"],
-        name: json["name"],
-        country: Country.fromJson(json["country"]),
-      );
-
-  Map<String, dynamic> toJson() => {
-        "id": id,
-        "name": name,
-        "country": country.toJson(),
       };
 }
 

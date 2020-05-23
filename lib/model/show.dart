@@ -23,7 +23,7 @@ class Show {
   Network network;
   Network webChannel;
   Externals externals;
-  Image image;
+  Img image;
   String summary;
   int updated;
   Links links;
@@ -57,7 +57,9 @@ class Show {
         name: json["name"],
         type: json["type"],
         language: json["language"],
-        genres: List<String>.from(json["genres"].map((x) => x)),
+        genres: json["genres"] == null
+            ? []
+            : List<String>.from(json["genres"].map((x) => x)),
         status: json["status"],
         runtime: json["runtime"],
         premiered: json["premiered"] == null
@@ -71,7 +73,7 @@ class Show {
             json["network"] != null ? Network.fromJson(json["network"]) : null,
         webChannel: Network.fromJson(json["webChannel"]),
         externals: Externals.fromJson(json["externals"]),
-        image: Image.fromJson(json["image"]),
+        image: Img.fromJson(json["image"]),
         summary: json["summary"],
         updated: json["updated"],
         links: Links.fromJson(json["_links"]),
@@ -114,9 +116,9 @@ class Externals {
   });
 
   factory Externals.fromJson(Map<String, dynamic> json) => Externals(
-        tvrage: json["tvrage"],
-        thetvdb: json["thetvdb"],
-        imdb: json["imdb"],
+        tvrage: json == null ? null : json["tvrage"],
+        thetvdb: json == null ? null : json["thetvdb"],
+        imdb: json == null ? null : json["imdb"],
       );
 
   Map<String, dynamic> toJson() => {
@@ -126,16 +128,16 @@ class Externals {
       };
 }
 
-class Image {
+class Img {
   String medium;
   String original;
 
-  Image({
+  Img({
     this.medium,
     this.original,
   });
 
-  factory Image.fromJson(Map<String, dynamic> json) => Image(
+  factory Img.fromJson(Map<String, dynamic> json) => Img(
         medium: json == null ? null : json["medium"],
         original: json == null ? null : json["original"],
       );
@@ -156,8 +158,10 @@ class Links {
   });
 
   factory Links.fromJson(Map<String, dynamic> json) => Links(
-        self: Previousepisode.fromJson(json["self"]),
-        previousepisode: Previousepisode.fromJson(json["previousepisode"]),
+        self: json == null ? null : Previousepisode.fromJson(json["self"]),
+        previousepisode: json == null
+            ? null
+            : Previousepisode.fromJson(json["previousepisode"]),
       );
 
   Map<String, dynamic> toJson() => {
@@ -239,7 +243,7 @@ class Rating {
   });
 
   factory Rating.fromJson(Map<String, dynamic> json) => Rating(
-        average: json["average"],
+        average: json == null ? null : json["average"],
       );
 
   Map<String, dynamic> toJson() => {
@@ -257,8 +261,9 @@ class Schedule {
   });
 
   factory Schedule.fromJson(Map<String, dynamic> json) => Schedule(
-        time: json["time"],
-        days: List<String>.from(json["days"].map((x) => x)),
+        time: json == null ? null : json["time"],
+        days:
+            json == null ? null : List<String>.from(json["days"].map((x) => x)),
       );
 
   Map<String, dynamic> toJson() => {
