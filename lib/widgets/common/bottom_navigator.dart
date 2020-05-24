@@ -1,6 +1,8 @@
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:flutter/material.dart';
+import 'package:tv_test/blocs/favorites_bloc.dart';
 import 'package:tv_test/handlers/color_handler.dart';
+import 'package:tv_test/pages/favorites.dart';
 import 'package:tv_test/pages/home.dart';
 import 'package:tv_test/pages/search.dart';
 
@@ -10,13 +12,13 @@ class BottomNavigator extends StatefulWidget {
 }
 
 class _BottomNavigatorState extends State<BottomNavigator> {
+  final FavoritesBloc bloc = FavoritesBloc();
   int page = 1;
-  List<Widget> pages = [
-    SearchPage(),
-    HomePage(),
-  ];
 
   changePage(index) {
+    if (index == 2) {
+      bloc.getFavorites();
+    }
     setState(() {
       page = index;
     });
@@ -27,7 +29,11 @@ class _BottomNavigatorState extends State<BottomNavigator> {
     return Scaffold(
       body: IndexedStack(
         index: page,
-        children: pages.map<Widget>((page) => page).toList(),
+        children: <Widget>[
+          SearchPage(),
+          HomePage(),
+          FavoritesPage(bloc),
+        ],
       ),
       bottomNavigationBar: CurvedNavigationBar(
         backgroundColor: colors["dark_background"],

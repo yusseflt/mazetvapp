@@ -32,7 +32,7 @@ class _HomePageState extends State<HomePage> {
   void initState() {
     super.initState();
 
-    page = 1;
+    page = 0;
     loadingMore = true;
 
     bloc.getShows(page);
@@ -58,43 +58,49 @@ class _HomePageState extends State<HomePage> {
               padding: EdgeInsets.all(8.0),
               child: Column(
                 children: <Widget>[
+                  SizedBox(height: 16),
                   SafeArea(
-                    child: Container(
-                      height: 45,
-                      margin: EdgeInsets.symmetric(horizontal: 16.0),
-                      color: colors['dark_primary'],
-                      child: InkWell(
-                        onTap: () {
-                          showSearch(
-                            context: context,
-                            delegate: Search(snapshot.data),
-                            query: query,
-                          );
-                        },
-                        child: IgnorePointer(
-                          child: TextField(
-                            decoration: InputDecoration(
-                              prefixIcon: Icon(
-                                Icons.search,
-                                color: colors['dark_secondary'],
+                    child: CachedNetworkImage(
+                        height: 60,
+                        imageUrl:
+                            'https://static.tvmaze.com/images/tvm-header-logo.png'),
+                  ),
+                  SizedBox(height: 24),
+                  Container(
+                    height: 45,
+                    margin: EdgeInsets.symmetric(horizontal: 16.0),
+                    color: colors['dark_primary'],
+                    child: InkWell(
+                      onTap: () {
+                        showSearch(
+                          context: context,
+                          delegate: Search(snapshot.data),
+                          query: query,
+                        );
+                      },
+                      child: IgnorePointer(
+                        child: TextField(
+                          decoration: InputDecoration(
+                            prefixIcon: Icon(
+                              Icons.search,
+                              color: colors['dark_secondary'],
+                            ),
+                            labelText: 'Search',
+                            labelStyle: TextStyle(
+                              color: colors['dark_secondary'],
+                            ),
+                            enabledBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(8.0),
+                              borderSide: BorderSide(
+                                color: Colors.transparent,
+                                width: 1,
                               ),
-                              labelText: 'Search',
-                              labelStyle: TextStyle(
-                                color: colors['dark_secondary'],
-                              ),
-                              enabledBorder: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(8.0),
-                                borderSide: BorderSide(
-                                  color: Colors.transparent,
-                                  width: 1,
-                                ),
-                              ),
-                              border: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(8.0),
-                                borderSide: BorderSide(
-                                  color: colors['red_primary'],
-                                  width: 1,
-                                ),
+                            ),
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(8.0),
+                              borderSide: BorderSide(
+                                color: colors['red_primary'],
+                                width: 1,
                               ),
                             ),
                           ),
@@ -117,7 +123,7 @@ class _HomePageState extends State<HomePage> {
                               child: Center(child: CircularProgressIndicator()),
                             );
                           }
-                          return ShowCard(snapshot.data[index]);
+                          return ShowTile(snapshot.data[index]);
                         }),
                   ),
                 ],

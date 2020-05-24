@@ -274,9 +274,11 @@ class Episode {
         name: json["name"],
         season: json["season"],
         number: json["number"],
-        airdate: DateTime.parse(json["airdate"]),
+        airdate:
+            json["airdate"] == '' ? null : DateTime.tryParse(json["airdate"]),
         airtime: airtimeValues.map[json["airtime"]],
-        airstamp: DateTime.parse(json["airstamp"]),
+        airstamp:
+            json["airdate"] == '' ? null : DateTime.tryParse(json["airstamp"]),
         runtime: json["runtime"],
         image: Img.fromJson(json["image"]),
         summary: json["summary"],

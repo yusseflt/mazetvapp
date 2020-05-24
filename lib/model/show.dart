@@ -1,13 +1,15 @@
 import 'dart:convert';
 
+import 'package:tv_test/model/persistent_object.dart';
+
 List<Show> showFromJson(String str) =>
     List<Show>.from(json.decode(str).map((x) => Show.fromJson(x)));
 
 String showToJson(List<Show> data) =>
     json.encode(List<dynamic>.from(data.map((x) => x.toJson())));
 
-class Show {
-  int id;
+class Show extends PersistentObject {
+  int showId;
   String url;
   String name;
   String type;
@@ -29,7 +31,7 @@ class Show {
   Links links;
 
   Show({
-    this.id,
+    this.showId,
     this.url,
     this.name,
     this.type,
@@ -49,10 +51,10 @@ class Show {
     this.summary,
     this.updated,
     this.links,
-  });
+  }) : super('Show');
 
   factory Show.fromJson(Map<String, dynamic> json) => Show(
-        id: json["id"],
+        showId: json["id"],
         url: json["url"],
         name: json["name"],
         type: json["type"],
@@ -80,7 +82,7 @@ class Show {
       );
 
   Map<String, dynamic> toJson() => {
-        "id": id,
+        "id": showId,
         "url": url,
         "name": name,
         "type": type,
@@ -207,7 +209,7 @@ class Network {
   Map<String, dynamic> toJson() => {
         "id": id,
         "name": name,
-        "country": country.toJson(),
+        "country": country == null ? null : country.toJson(),
       };
 }
 
