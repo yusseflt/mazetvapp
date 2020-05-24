@@ -4,7 +4,8 @@ import 'package:tv_test/blocs/details_bloc.dart';
 import 'package:tv_test/handlers/color_handler.dart';
 import 'package:tv_test/handlers/text_handler.dart';
 import 'package:tv_test/model/show.dart';
-import 'package:tv_test/widgets/Details/episodes_dialog.dart';
+import 'package:tv_test/pages/person_details.dart';
+import 'package:tv_test/widgets/details/episodes_dialog.dart';
 
 class DetailsPage extends StatefulWidget {
   final Show show;
@@ -62,7 +63,6 @@ class _DetailsPageState extends State<DetailsPage> {
                     ),
                   ),
                   child: ListView(
-                    // crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -84,7 +84,9 @@ class _DetailsPageState extends State<DetailsPage> {
                                       snapshot.data["favorited"] == true
                                           ? Icons.favorite
                                           : Icons.favorite_border,
-                                      color: Colors.white),
+                                      color: snapshot.data["favorited"] == true
+                                          ? colors["red_primary"]
+                                          : Colors.white),
                                 )
                               : Container(),
                         ],
@@ -107,7 +109,9 @@ class _DetailsPageState extends State<DetailsPage> {
                             Text(
                               widget.show.premiered != null
                                   ? '${widget.show.premiered.year} - ${widget.show.runtime} min per episode'
-                                  : '${widget.show.runtime} min per episode',
+                                  : widget.show.runtime != null
+                                      ? '${widget.show.runtime} min per episode'
+                                      : '',
                               style: TextStyle(
                                   color: Colors.white,
                                   fontSize: 16,
@@ -195,58 +199,85 @@ class _DetailsPageState extends State<DetailsPage> {
                                       ),
                                     ),
                                   ),
-                                  Padding(
-                                    padding: const EdgeInsets.all(16.0),
-                                    child: Text(
-                                      'Cast',
-                                      style: TextStyle(
-                                          color: Colors.white,
-                                          fontSize: 18,
-                                          fontWeight: FontWeight.bold),
-                                    ),
-                                  ),
-                                  Container(
-                                    height: 120.0,
-                                    child: ListView(
-                                      scrollDirection: Axis.horizontal,
-                                      shrinkWrap: true,
-                                      children: snapshot.data["embedded"].cast
-                                          .map<Widget>(
-                                            (person) => Container(
-                                              width: 100.0,
-                                              child: Column(
-                                                children: <Widget>[
-                                                  Container(
-                                                    height: 60.0,
-                                                    width: 60.0,
-                                                    child: CircleAvatar(
-                                                      backgroundImage:
-                                                          CachedNetworkImageProvider(
-                                                              person.person.image
-                                                                          .medium !=
-                                                                      null
-                                                                  ? person
-                                                                      .person
-                                                                      .image
-                                                                      .medium
-                                                                  : ''),
-                                                    ),
-                                                  ),
-                                                  SizedBox(height: 4),
-                                                  Text(
-                                                    person.person.name,
-                                                    textAlign: TextAlign.center,
-                                                    style: TextStyle(
-                                                        color: Colors.white,
-                                                        fontSize: 14),
-                                                  )
-                                                ],
+                                  snapshot.data["embedded"].cast.isEmpty
+                                      ? Container()
+                                      : Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: <Widget>[
+                                            Padding(
+                                              padding:
+                                                  const EdgeInsets.all(16.0),
+                                              child: Text(
+                                                'Cast',
+                                                style: TextStyle(
+                                                  color: Colors.white,
+                                                  fontSize: 18,
+                                                  fontWeight: FontWeight.bold,
+                                                ),
                                               ),
                                             ),
-                                          )
-                                          .toList(),
-                                    ),
-                                  ),
+                                            Container(
+                                              height: 120.0,
+                                              child: ListView(
+                                                scrollDirection:
+                                                    Axis.horizontal,
+                                                shrinkWrap: true,
+                                                children: snapshot
+                                                    .data["embedded"].cast
+                                                    .map<Widget>(
+                                                      (person) => Container(
+                                                        width: 100.0,
+                                                        child: Column(
+                                                          children: <Widget>[
+                                                            Container(
+                                                              height: 60.0,
+                                                              width: 60.0,
+                                                              child: InkWell(
+                                                                onTap: () {
+                                                                  Navigator.push(
+                                                                      context,
+                                                                      MaterialPageRoute(
+                                                                          builder: (context) =>
+                                                                              PersonDetails(person.person)));
+                                                                },
+                                                                child:
+                                                                    CircleAvatar(
+                                                                  backgroundImage: CachedNetworkImageProvider(person
+                                                                              .person
+                                                                              .image
+                                                                              .medium !=
+                                                                          null
+                                                                      ? person
+                                                                          .person
+                                                                          .image
+                                                                          .medium
+                                                                      : ''),
+                                                                ),
+                                                              ),
+                                                            ),
+                                                            SizedBox(height: 4),
+                                                            Text(
+                                                              person
+                                                                  .person.name,
+                                                              textAlign:
+                                                                  TextAlign
+                                                                      .center,
+                                                              style: TextStyle(
+                                                                color: Colors
+                                                                    .white,
+                                                                fontSize: 14,
+                                                              ),
+                                                            )
+                                                          ],
+                                                        ),
+                                                      ),
+                                                    )
+                                                    .toList(),
+                                              ),
+                                            ),
+                                          ],
+                                        ),
                                   Column(
                                     children: snapshot.data["embedded"].seasons
                                         .map<Widget>(

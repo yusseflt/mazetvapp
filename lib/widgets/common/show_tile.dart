@@ -31,6 +31,12 @@ class _ShowTileState extends State<ShowTile> {
                 imageUrl: widget.show.image.medium == null
                     ? ''
                     : widget.show.image.medium,
+                placeholder: (context, string) => Container(
+                  height: 100,
+                  child: Center(
+                    child: CircularProgressIndicator(),
+                  ),
+                ),
                 errorWidget: (context, string, d) => Container(
                   height: 60,
                   decoration: BoxDecoration(color: Colors.black),

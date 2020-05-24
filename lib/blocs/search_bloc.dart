@@ -1,24 +1,37 @@
+import 'dart:convert';
+
 import 'package:rxdart/rxdart.dart';
 import 'package:tv_test/managers/api_manager.dart';
+import 'package:tv_test/model/embeded.dart';
 import 'package:tv_test/model/search.dart';
-import 'package:tv_test/model/show.dart';
 
 class SearchBloc {
-  PublishSubject<List<SearchModel>> _searchSubject;
+  PublishSubject<List> _searchSubject;
   ApiManager _api = ApiManager();
 
-  Stream<List<SearchModel>> get searchObservable => _searchSubject.stream;
+  Stream<List> get searchObservable => _searchSubject.stream;
 
-  List<SearchModel> shows = List();
+  List list = List();
 
   SearchBloc() {
-    _searchSubject = new PublishSubject<List<SearchModel>>();
+    _searchSubject = new PublishSubject<List>();
   }
 
-  Future searchQuery(query) async {
-    var response = await _api.searchQuery(query);
+  Future searchQuery(query, type) async {
+    var response;
+    if (type == 'people') {
+      response = await _api.searchActor(query);
 
-    shows = searchModelFromJson(response.body);
-    _searchSubject.sink.add(shows);
+      list = List<Person>.from(
+          json.decode(response.body).map((x) => Person.fromJson(x["person"])));
+
+      print((list[0] as Person).name);
+      _searchSubject.sink.add(list);
+    } else {
+      response = await _api.searchShow(query);
+
+      list = searchModelFromJson(response.body);
+      _searchSubject.sink.add(list);
+    }
   }
 }

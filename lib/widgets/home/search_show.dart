@@ -1,15 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:tv_test/blocs/search_bloc.dart';
 import 'package:tv_test/handlers/color_handler.dart';
-import 'package:tv_test/model/search.dart';
 import 'package:tv_test/model/show.dart';
 import 'package:tv_test/widgets/common/show_tile.dart';
 
-class Search extends SearchDelegate<Show> {
+class SearchShow extends SearchDelegate<Show> {
   final list;
   final SearchBloc bloc = SearchBloc();
 
-  Search(this.list);
+  SearchShow(this.list);
 
   @override
   List<Widget> buildActions(BuildContext context) {
@@ -34,7 +33,7 @@ class Search extends SearchDelegate<Show> {
 
   @override
   Widget buildResults(BuildContext context) {
-    bloc.searchQuery(query);
+    bloc.searchQuery(query, 'show');
 
     return query == ''
         ? Container(
@@ -48,7 +47,7 @@ class Search extends SearchDelegate<Show> {
             color: colors['dark_background'],
             child: StreamBuilder(
               stream: bloc.searchObservable,
-              builder: (context, AsyncSnapshot<List<SearchModel>> snapshot) {
+              builder: (context, AsyncSnapshot<List> snapshot) {
                 if (!snapshot.hasData) {
                   return Column(
                     crossAxisAlignment: CrossAxisAlignment.center,

@@ -8,7 +8,10 @@ import 'package:tv_test/pages/details.dart';
 class ShowCard extends StatefulWidget {
   final Show show;
   final bloc;
-  ShowCard(this.show, this.bloc);
+  final height;
+  final width;
+
+  ShowCard(this.show, this.bloc, this.height, this.width);
   @override
   _ShowCardState createState() => _ShowCardState();
 }
@@ -38,7 +41,8 @@ class _ShowCardState extends State<ShowCard> {
   @override
   void initState() {
     super.initState();
-    img = CachedNetworkImageProvider(widget.show.image.medium);
+    img = CachedNetworkImageProvider(
+        widget.show.image.medium == null ? '' : widget.show.image.medium);
 
     if (widget.show.image.medium != null) {
       getImagePalette().then((color) {
@@ -52,7 +56,8 @@ class _ShowCardState extends State<ShowCard> {
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    img = CachedNetworkImageProvider(widget.show.image.medium);
+    img = CachedNetworkImageProvider(
+        widget.show.image.medium == null ? '' : widget.show.image.medium);
 
     if (widget.show.image.medium != null) {
       getImagePalette().then((color) {
@@ -82,8 +87,8 @@ class _ShowCardState extends State<ShowCard> {
   Widget build(BuildContext context) {
     return Container(
       margin: EdgeInsets.all(16.0),
-      height: MediaQuery.of(context).size.height / 2.7,
-      width: MediaQuery.of(context).size.width / 2.4,
+      height: widget.height,
+      width: widget.width,
       decoration: c == null
           ? BoxDecoration(color: colors["dark_primary"])
           : BoxDecoration(
@@ -94,12 +99,14 @@ class _ShowCardState extends State<ShowCard> {
       child: InkWell(
         onTap: () {
           Navigator.push(
-              context,
-              MaterialPageRoute(
-                  builder: (context) => DetailsPage(
-                        widget.show,
-                        favoriteBloc: widget.bloc,
-                      )));
+            context,
+            MaterialPageRoute(
+              builder: (context) => DetailsPage(
+                widget.show,
+                favoriteBloc: widget.bloc,
+              ),
+            ),
+          );
         },
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,

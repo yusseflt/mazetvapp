@@ -35,6 +35,36 @@ class _FavoritesPageState extends State<FavoritesPage> {
               ),
             );
           }
+          if (snapshot.data.isEmpty) {
+            return Container(
+              width: MediaQuery.of(context).size.width,
+              height: MediaQuery.of(context).size.height,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: <Widget>[
+                  SizedBox(height: 16),
+                  SafeArea(
+                    child: Text(
+                      'Favorites',
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontWeight: FontWeight.bold,
+                        fontSize: 24,
+                      ),
+                    ),
+                  ),
+                  Expanded(
+                    child: Center(
+                      child: Text(
+                        'This list is empty :(',
+                        style: TextStyle(color: Colors.grey, fontSize: 18),
+                      ),
+                    ),
+                  )
+                ],
+              ),
+            );
+          }
           return Container(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
@@ -55,7 +85,12 @@ class _FavoritesPageState extends State<FavoritesPage> {
                       Wrap(
                         direction: Axis.horizontal,
                         children: snapshot.data
-                            .map<Widget>((show) => ShowCard(show, widget.bloc))
+                            .map<Widget>((show) => ShowCard(
+                                  show,
+                                  widget.bloc,
+                                  MediaQuery.of(context).size.height / 2.7,
+                                  MediaQuery.of(context).size.width / 2.4,
+                                ))
                             .toList(),
                       ),
                     ],

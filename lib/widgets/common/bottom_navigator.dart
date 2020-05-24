@@ -4,7 +4,7 @@ import 'package:tv_test/blocs/favorites_bloc.dart';
 import 'package:tv_test/handlers/color_handler.dart';
 import 'package:tv_test/pages/favorites.dart';
 import 'package:tv_test/pages/home.dart';
-import 'package:tv_test/pages/search.dart';
+import 'package:tv_test/pages/people.dart';
 
 class BottomNavigator extends StatefulWidget {
   @override
@@ -30,7 +30,7 @@ class _BottomNavigatorState extends State<BottomNavigator> {
       body: IndexedStack(
         index: page,
         children: <Widget>[
-          SearchPage(),
+          PeoplePage(),
           HomePage(),
           FavoritesPage(bloc),
         ],
@@ -43,7 +43,7 @@ class _BottomNavigatorState extends State<BottomNavigator> {
         buttonBackgroundColor: colors["red_primary"],
         animationDuration: Duration(milliseconds: 300),
         items: <Widget>[
-          Icon(Icons.search, size: 30, color: Colors.white),
+          Icon(Icons.people, size: 30, color: Colors.white),
           Icon(Icons.home, size: 30, color: Colors.white),
           Icon(Icons.favorite, size: 30, color: Colors.white),
         ],

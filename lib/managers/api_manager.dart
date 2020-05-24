@@ -22,10 +22,40 @@ class ApiManager {
     }
   }
 
-  Future searchQuery(query) async {
+  Future getInitialPersonData(id) async {
+    try {
+      var res =
+          await RequestHandler.makeGet("$BASE_API_URL/shows/$id?embed[]=cast");
+      return res;
+    } catch (e) {
+      throw e;
+    }
+  }
+
+  Future getPeoplebyId(id) async {
+    try {
+      var res = await RequestHandler.makeGet(
+          "$BASE_API_URL/people/$id/castcredits?embed=show");
+      return res;
+    } catch (e) {
+      throw e;
+    }
+  }
+
+  Future searchShow(query) async {
     try {
       var res =
           await RequestHandler.makeGet("$BASE_API_URL/search/shows?q=$query");
+      return res;
+    } catch (e) {
+      throw e;
+    }
+  }
+
+  Future searchActor(query) async {
+    try {
+      var res =
+          await RequestHandler.makeGet("$BASE_API_URL/search/people?q=$query");
       return res;
     } catch (e) {
       throw e;

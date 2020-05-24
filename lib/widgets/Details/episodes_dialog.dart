@@ -79,7 +79,7 @@ class _EpisodesDialogState extends State<EpisodesDialog> {
                       child: Text(
                         widget.episode.summary != ''
                             ? removeTags(widget.episode.summary)
-                            : "There's no summary",
+                            : "Not available",
                         textAlign: TextAlign.justify,
                         style: TextStyle(
                           color: Colors.white,

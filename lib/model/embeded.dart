@@ -26,19 +26,27 @@ class Embedded {
   List<Episode> episodes;
   List<Cast> cast;
   List<Season> seasons;
+  Show show;
 
   Embedded({
     this.episodes,
     this.cast,
     this.seasons,
+    this.show,
   });
 
   factory Embedded.fromJson(Map<String, dynamic> json) => Embedded(
-        episodes: List<Episode>.from(
-            json["episodes"].map((x) => Episode.fromJson(x))),
-        cast: List<Cast>.from(json["cast"].map((x) => Cast.fromJson(x))),
-        seasons:
-            List<Season>.from(json["seasons"].map((x) => Season.fromJson(x))),
+        episodes: json["episodes"] == null
+            ? null
+            : List<Episode>.from(
+                json["episodes"].map((x) => Episode.fromJson(x))),
+        cast: json["cast"] == null
+            ? null
+            : List<Cast>.from(json["cast"].map((x) => Cast.fromJson(x))),
+        show: json["show"] == null ? null : Show.fromJson(json["show"]),
+        seasons: json["seasons"] == null
+            ? null
+            : List<Season>.from(json["seasons"].map((x) => Season.fromJson(x))),
       );
 
   Map<String, dynamic> toJson() => {
@@ -116,7 +124,7 @@ class Links {
   });
 
   factory Links.fromJson(Map<String, dynamic> json) => Links(
-        self: Self.fromJson(json["self"]),
+        self: json == null ? null : Self.fromJson(json["self"]),
       );
 
   Map<String, dynamic> toJson() => {
@@ -132,7 +140,7 @@ class Self {
   });
 
   factory Self.fromJson(Map<String, dynamic> json) => Self(
-        href: json["href"],
+        href: json == null ? null : json["href"],
       );
 
   Map<String, dynamic> toJson() => {
@@ -147,7 +155,7 @@ class Person {
   Country country;
   DateTime birthday;
   dynamic deathday;
-  Gender gender;
+  String gender;
   Img image;
   Links links;
 
@@ -171,7 +179,7 @@ class Person {
         birthday:
             json["birthday"] == null ? null : DateTime.parse(json["birthday"]),
         deathday: json["deathday"],
-        gender: genderValues.map[json["gender"]],
+        gender: json["gender"],
         image: Img.fromJson(json["image"]),
         links: Links.fromJson(json["_links"]),
       );
@@ -185,14 +193,14 @@ class Person {
             ? null
             : "${birthday.year.toString().padLeft(4, '0')}-${birthday.month.toString().padLeft(2, '0')}-${birthday.day.toString().padLeft(2, '0')}",
         "deathday": deathday,
-        "gender": genderValues.reverse[gender],
+        "gender": gender,
         "image": image.toJson(),
         "_links": links.toJson(),
       };
 }
 
 class Country {
-  Name name;
+  String name;
   Code code;
   Timezone timezone;
 
@@ -203,13 +211,13 @@ class Country {
   });
 
   factory Country.fromJson(Map<String, dynamic> json) => Country(
-        name: json == null ? null : nameValues.map[json["name"]],
+        name: json == null ? null : json["name"],
         code: json == null ? null : codeValues.map[json["code"]],
         timezone: json == null ? null : timezoneValues.map[json["timezone"]],
       );
 
   Map<String, dynamic> toJson() => {
-        "name": nameValues.reverse[name],
+        "name": name,
         "code": codeValues.reverse[code],
         "timezone": timezoneValues.reverse[timezone],
       };
@@ -219,14 +227,6 @@ enum Code { US, CA, GB }
 
 final codeValues = EnumValues({"CA": Code.CA, "GB": Code.GB, "US": Code.US});
 
-enum Name { UNITED_STATES, CANADA, UNITED_KINGDOM }
-
-final nameValues = EnumValues({
-  "Canada": Name.CANADA,
-  "United Kingdom": Name.UNITED_KINGDOM,
-  "United States": Name.UNITED_STATES
-});
-
 enum Timezone { AMERICA_NEW_YORK, AMERICA_HALIFAX, EUROPE_LONDON }
 
 final timezoneValues = EnumValues({
@@ -234,10 +234,6 @@ final timezoneValues = EnumValues({
   "America/New_York": Timezone.AMERICA_NEW_YORK,
   "Europe/London": Timezone.EUROPE_LONDON
 });
-
-enum Gender { MALE, FEMALE }
-
-final genderValues = EnumValues({"Female": Gender.FEMALE, "Male": Gender.MALE});
 
 class Episode {
   int id;
