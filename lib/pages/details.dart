@@ -44,8 +44,7 @@ class _DetailsPageState extends State<DetailsPage> {
                               image: DecorationImage(
                             fit: BoxFit.fitWidth,
                             alignment: FractionalOffset.topCenter,
-                            image: CachedNetworkImageProvider(
-                                widget.show.image.original),
+                            image: NetworkImage(widget.show.image.original),
                           )),
                         ),
                       ),
@@ -243,16 +242,11 @@ class _DetailsPageState extends State<DetailsPage> {
                                                                 },
                                                                 child:
                                                                     CircleAvatar(
-                                                                  backgroundImage: CachedNetworkImageProvider(person
-                                                                              .person
-                                                                              .image
-                                                                              .medium !=
-                                                                          null
-                                                                      ? person
+                                                                  backgroundImage:
+                                                                      NetworkImage(person
                                                                           .person
                                                                           .image
-                                                                          .medium
-                                                                      : ''),
+                                                                          .medium),
                                                                 ),
                                                               ),
                                                             ),
@@ -336,33 +330,24 @@ class _DetailsPageState extends State<DetailsPage> {
                                                                         size:
                                                                             24,
                                                                       ),
-                                                                      leading:
-                                                                          CachedNetworkImage(
-                                                                        width:
-                                                                            100,
-                                                                        imageUrl: episode.image.medium !=
-                                                                                null
-                                                                            ? episode.image.medium
-                                                                            : '',
-                                                                        errorWidget: (context,
-                                                                                string,
-                                                                                d) =>
-                                                                            Container(
-                                                                          width:
-                                                                              24,
-                                                                          height:
-                                                                              24,
-                                                                          child:
-                                                                              Center(
-                                                                            child:
-                                                                                Icon(
-                                                                              Icons.broken_image,
-                                                                              color: colors['red_primary'],
-                                                                              size: 18,
+                                                                      leading: episode.image.medium !=
+                                                                              null
+                                                                          ? Image
+                                                                              .network(
+                                                                              episode.image.medium,
+                                                                              width: 100,
+                                                                            )
+                                                                          : Container(
+                                                                              width: 24,
+                                                                              height: 24,
+                                                                              child: Center(
+                                                                                child: Icon(
+                                                                                  Icons.broken_image,
+                                                                                  color: colors['red_primary'],
+                                                                                  size: 18,
+                                                                                ),
+                                                                              ),
                                                                             ),
-                                                                          ),
-                                                                        ),
-                                                                      ),
                                                                     ),
                                                                   )
                                                                 : Container(),

@@ -89,7 +89,7 @@ class _FavoritesPageState extends State<FavoritesPage> {
                                   show,
                                   widget.bloc,
                                   MediaQuery.of(context).size.height / 2.7,
-                                  MediaQuery.of(context).size.width / 2.4,
+                                  MediaQuery.of(context).size.width / 2.5,
                                 ))
                             .toList(),
                       ),

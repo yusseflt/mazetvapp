@@ -1,13 +1,35 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tv_test/handlers/color_handler.dart';
 import 'package:tv_test/handlers/scroll_glow_handler.dart';
-import 'package:tv_test/widgets/common/bottom_navigator.dart';
+import 'package:tv_test/managers/route_manager.dart';
 
-void main() => runApp(MyApp());
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  var page = 'bottomNavigator';
+  SharedPreferences prefs = await SharedPreferences.getInstance();
+  bool pin = prefs.getBool('pinActive');
+
+  if (pin == true) {
+    page = 'pinPage';
+  }
+
+  runApp(MyApp(page));
+}
 
 class MyApp extends StatelessWidget {
+  final page;
+
+  MyApp(this.page);
+
   @override
   Widget build(BuildContext context) {
+    SystemChrome.setPreferredOrientations([
+      DeviceOrientation.portraitUp,
+      DeviceOrientation.portraitDown,
+    ]);
+
     return MaterialApp(
       title: 'Flutter Demo',
       builder: (context, child) {
@@ -18,7 +40,9 @@ class MyApp extends StatelessWidget {
       },
       theme: ThemeData(
           backgroundColor: colors["dark_background"], fontFamily: 'OpenSans'),
-      home: BottomNavigator(),
+      debugShowCheckedModeBanner: false,
+      routes: routes,
+      initialRoute: page,
     );
   }
 }

@@ -17,9 +17,9 @@ class ShowCard extends StatefulWidget {
 }
 
 class _ShowCardState extends State<ShowCard> {
-  CachedNetworkImageProvider img;
-  Color c;
-  Color textColor;
+  NetworkImage img;
+  Color c = Colors.black;
+  Color textColor = Colors.white;
 
   Future<Color> getImagePalette() async {
     final PaletteGenerator paletteGenerator =
@@ -41,46 +41,31 @@ class _ShowCardState extends State<ShowCard> {
   @override
   void initState() {
     super.initState();
-    img = CachedNetworkImageProvider(
+    img = NetworkImage(
         widget.show.image.medium == null ? '' : widget.show.image.medium);
 
-    if (widget.show.image.medium != null) {
-      getImagePalette().then((color) {
-        setState(() {
-          c = color;
-        });
-      });
-    }
-  }
-
-  @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
-    img = CachedNetworkImageProvider(
-        widget.show.image.medium == null ? '' : widget.show.image.medium);
-
-    if (widget.show.image.medium != null) {
-      getImagePalette().then((color) {
-        setState(() {
-          c = color;
-        });
-      });
-    }
+    // if (widget.show.image.medium != null) {
+    //   getImagePalette().then((color) {
+    //     setState(() {
+    //       c = color;
+    //     });
+    //   });
+    // }
   }
 
   @override
   void didUpdateWidget(ShowCard oldWidget) {
     // TODO: implement didUpdateWidget
     super.didUpdateWidget(oldWidget);
-    img = CachedNetworkImageProvider(widget.show.image.medium);
+    img = NetworkImage(widget.show.image.medium);
 
-    if (widget.show.image.medium != null) {
-      getImagePalette().then((color) {
-        setState(() {
-          c = color;
-        });
-      });
-    }
+    // if (widget.show.image.medium != null) {
+    //   getImagePalette().then((color) {
+    //     setState(() {
+    //       c = color;
+    //     });
+    //   });
+    // }
   }
 
   @override

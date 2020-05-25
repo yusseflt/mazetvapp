@@ -20,27 +20,22 @@ class _EpisodesDialogState extends State<EpisodesDialog> {
       shape: RoundedRectangleBorder(),
       backgroundColor: colors['dark_background'],
       children: <Widget>[
-        CachedNetworkImage(
-          width: MediaQuery.of(context).size.width,
-          fit: BoxFit.fill,
-          imageUrl: widget.episode.image.original ?? '',
-          placeholder: (context, string) => Container(
-            height: 100,
-            child: Center(
-              child: CircularProgressIndicator(),
-            ),
-          ),
-          errorWidget: (context, string, d) => Container(
-            height: 100,
-            child: Center(
-              child: Icon(
-                Icons.broken_image,
-                color: colors['red_primary'],
-                size: 36,
+        widget.episode.image.original == null
+            ? Container(
+                height: 100,
+                child: Center(
+                  child: Icon(
+                    Icons.broken_image,
+                    color: colors['red_primary'],
+                    size: 36,
+                  ),
+                ),
+              )
+            : Image.network(
+                widget.episode.image.original,
+                width: MediaQuery.of(context).size.width,
+                fit: BoxFit.fill,
               ),
-            ),
-          ),
-        ),
         Padding(
           padding: EdgeInsets.all(16.0),
           child: Column(

@@ -67,7 +67,7 @@ class _PersonDetailsState extends State<PersonDetails> {
                                 ),
                               ),
                               Container(
-                                width: MediaQuery.of(context).size.width / 1.2,
+                                width: MediaQuery.of(context).size.width / 1.3,
                                 height:
                                     MediaQuery.of(context).size.height / 1.8,
                                 child: AspectRatio(
@@ -75,32 +75,24 @@ class _PersonDetailsState extends State<PersonDetails> {
                                   child: ClipRRect(
                                     borderRadius: BorderRadius.only(
                                         bottomLeft: Radius.circular(36.0)),
-                                    child: CachedNetworkImage(
-                                      alignment: FractionalOffset.topCenter,
-                                      fit: BoxFit.cover,
-                                      imageUrl:
-                                          widget.person.image.original != null
-                                              ? widget.person.image.original
-                                              : '',
-                                      placeholder: (context, string) =>
-                                          Container(
-                                        height: 100,
-                                        child: Center(
-                                          child: CircularProgressIndicator(),
-                                        ),
-                                      ),
-                                      errorWidget: (context, s, d) => Container(
-                                        width: 42,
-                                        height: 42,
-                                        child: Center(
-                                          child: Icon(
-                                            Icons.broken_image,
-                                            color: colors['red_primary'],
-                                            size: 48,
+                                    child: widget.person.image.original == null
+                                        ? Container(
+                                            width: 42,
+                                            height: 42,
+                                            child: Center(
+                                              child: Icon(
+                                                Icons.broken_image,
+                                                color: colors['red_primary'],
+                                                size: 48,
+                                              ),
+                                            ),
+                                          )
+                                        : Image.network(
+                                            widget.person.image.original,
+                                            alignment:
+                                                FractionalOffset.topCenter,
+                                            fit: BoxFit.cover,
                                           ),
-                                        ),
-                                      ),
-                                    ),
                                   ),
                                 ),
                               ),
@@ -219,34 +211,24 @@ class _PersonDetailsState extends State<PersonDetails> {
                                       child: ClipRRect(
                                         borderRadius:
                                             BorderRadius.circular(18.0),
-                                        child: CachedNetworkImage(
-                                          height: 210,
-                                          width: 150,
-                                          imageUrl: item.embedded.show.image
-                                                      .medium ==
-                                                  null
-                                              ? ''
-                                              : item.embedded.show.image.medium,
-                                          placeholder: (context, string) =>
-                                              Container(
-                                            height: 100,
-                                            child: Center(
-                                              child:
-                                                  CircularProgressIndicator(),
-                                            ),
-                                          ),
-                                          errorWidget: (context, s, d) =>
-                                              Container(
-                                            color: colors["dark_primary"],
-                                            height: 210,
-                                            width: 150,
-                                            child: Icon(
-                                              Icons.broken_image,
-                                              color: colors['red_primary'],
-                                              size: 42,
-                                            ),
-                                          ),
-                                        ),
+                                        child: item.embedded.show.image
+                                                    .medium ==
+                                                null
+                                            ? Container(
+                                                color: colors["dark_primary"],
+                                                height: 210,
+                                                width: 150,
+                                                child: Icon(
+                                                  Icons.broken_image,
+                                                  color: colors['red_primary'],
+                                                  size: 42,
+                                                ),
+                                              )
+                                            : Image.network(
+                                                item.embedded.show.image.medium,
+                                                height: 210,
+                                                width: 150,
+                                              ),
                                       ),
                                     ),
                                     Container(

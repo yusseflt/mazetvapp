@@ -14,7 +14,7 @@ description: A new Flutter project.
 version: 1.0.0+1
 
 environment:
-  sdk: ">=2.1.0 <3.0.0"
+  sdk: ">=2.5.2 <3.0.0"
 
 dependencies:
   flutter:
@@ -30,7 +30,9 @@ dependencies:
   sembast: ^2.4.4+1
   path_provider: ^1.6.5
   palette_generator: ^0.2.2
-
+  pinput: ^0.2.0
+  shared_preferences: '>=0.5.6+1 <2.0.0'
+  crypto: ^2.0.6
 
 dev_dependencies:
   flutter_test:
