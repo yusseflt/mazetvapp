@@ -24,11 +24,19 @@ class _SettingsPageState extends State<SettingsPage> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
           SafeArea(
-            child: IconButton(
-              icon: Icon(Icons.arrow_back_ios, color: Colors.white),
-              onPressed: () {
-                Navigator.pop(context);
-              },
+            child: Row(
+              children: <Widget>[
+                IconButton(
+                  icon: Icon(Icons.arrow_back_ios, color: Colors.white),
+                  onPressed: () {
+                    Navigator.pop(context);
+                  },
+                ),
+                Text(
+                  "Settings",
+                  style: TextStyle(color: Colors.white, fontSize: 20),
+                ),
+              ],
             ),
           ),
           StreamBuilder(
@@ -58,6 +66,23 @@ class _SettingsPageState extends State<SettingsPage> {
                           value: snapshot.data["pinActive"],
                         ),
                       ),
+                      snapshot.data["canCheckBiometrics"] == true
+                          ? Theme(
+                              data: ThemeData(
+                                  unselectedWidgetColor: colors["red_primary"]),
+                              child: CheckboxListTile(
+                                title: Text(
+                                  'Activate Fingerprint',
+                                  style: TextStyle(color: Colors.white),
+                                ),
+                                activeColor: colors["red_primary"],
+                                onChanged: (value) {
+                                  bloc.fingerprintActivation(value);
+                                },
+                                value: snapshot.data["fingerprintActive"],
+                              ),
+                            )
+                          : Container(),
                     ],
                   ),
                 );

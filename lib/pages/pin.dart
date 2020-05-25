@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:crypto/crypto.dart';
 import 'package:flutter/material.dart';
+import 'package:local_auth/local_auth.dart';
 import 'package:pinput/pin_put/pin_put.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tv_test/handlers/color_handler.dart';
@@ -14,6 +15,12 @@ class PinPage extends StatefulWidget {
 class _PinPageState extends State<PinPage> {
   final TextEditingController _pinPutController = TextEditingController();
   final FocusNode _pinPutFocusNode = FocusNode();
+  final LocalAuthentication auth = LocalAuthentication();
+
+  List<BiometricType> _availableBiometrics;
+
+  String _authorized = 'Not Authorized';
+  bool _isAuthenticating = false;
 
   validate() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -25,9 +32,77 @@ class _PinPageState extends State<PinPage> {
     }
   }
 
+  Future<void> _getAvailableBiometrics() async {
+    List<BiometricType> availableBiometrics;
+    try {
+      availableBiometrics = await auth.getAvailableBiometrics();
+    } catch (e) {
+      print(e);
+    }
+    if (!mounted) return;
+
+    setState(() {
+      _availableBiometrics = availableBiometrics;
+    });
+  }
+
+  Future<void> _authenticate() async {
+    bool authenticated = false;
+    try {
+      setState(() {
+        _isAuthenticating = true;
+        _authorized = 'Authenticating';
+      });
+      authenticated = await auth.authenticateWithBiometrics(
+          localizedReason: 'Scan your fingerprint to authenticate',
+          useErrorDialogs: true,
+          stickyAuth: true);
+      setState(() {
+        _isAuthenticating = false;
+        _authorized = 'Authenticating';
+      });
+    } catch (e) {
+      print("\n\n\n\n\n Errp aqui? $e");
+    }
+    if (!mounted) return;
+
+    if (authenticated == true) {
+      Navigator.pushNamedAndRemoveUntil(
+          context, 'bottomNavigator', (a) => false);
+    }
+
+    final String message = authenticated ? 'Authorized' : 'Not Authorized';
+    setState(() {
+      _authorized = message;
+    });
+  }
+
+  void _cancelAuthentication() {
+    auth.stopAuthentication();
+  }
+
+  verifyFingerprint() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    if (prefs.getBool('fingerprintActive') == true) {
+      await _getAvailableBiometrics();
+
+      if (_availableBiometrics.isNotEmpty) {
+        _authenticate();
+      }
+    }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    verifyFingerprint();
+  }
+
   @override
   Widget build(BuildContext context) {
-    _pinPutFocusNode.requestFocus();
+    if (_availableBiometrics != null && _availableBiometrics.isEmpty) {
+      _pinPutFocusNode.requestFocus();
+    }
     return Scaffold(
       backgroundColor: colors["dark_background"],
       body: Builder(

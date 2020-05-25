@@ -33,6 +33,7 @@ dependencies:
   pinput: ^0.2.0
   shared_preferences: '>=0.5.6+1 <2.0.0'
   crypto: ^2.0.6
+  local_auth: ^0.6.2+3
 
 dev_dependencies:
   flutter_test:
