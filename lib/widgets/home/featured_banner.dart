@@ -20,14 +20,8 @@ class _FeaturedBannerState extends State<FeaturedBanner> {
         ? Container()
         : InkWell(
             onTap: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => DetailsPage(
-                    widget.show,
-                  ),
-                ),
-              );
+              Navigator.pushNamed(context, 'details',
+                  arguments: {"show": widget.show});
             },
             child: Row(
               children: <Widget>[
