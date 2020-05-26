@@ -1,13 +1,12 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:tv_test/blocs/person_details_bloc.dart';
-import 'package:tv_test/handlers/border_handler.dart';
-import 'package:tv_test/handlers/color_handler.dart';
-import 'package:tv_test/handlers/text_handler.dart';
-import 'package:tv_test/model/embeded.dart';
-import 'package:tv_test/model/person_details.dart';
-import 'package:tv_test/pages/details.dart';
-import 'package:tv_test/widgets/common/show_card.dart';
+import 'package:mazetvapp/blocs/person_details_bloc.dart';
+import 'package:mazetvapp/handlers/color_handler.dart';
+import 'package:mazetvapp/handlers/text_handler.dart';
+import 'package:mazetvapp/model/embeded.dart';
+import 'package:mazetvapp/model/person_details.dart';
+import 'package:mazetvapp/pages/details.dart';
+import 'package:mazetvapp/widgets/personDetails/known_for_list.dart';
+import 'package:mazetvapp/widgets/personDetails/person_details_top.dart';
 
 class PersonDetails extends StatefulWidget {
   final Person person;
@@ -45,63 +44,7 @@ class _PersonDetailsState extends State<PersonDetails> {
               height: MediaQuery.of(context).size.height,
               child: ListView(
                 children: <Widget>[
-                  Container(
-                    color: colors["dark_primary"],
-                    child: ClipPath(
-                      clipper: BorderHandler(),
-                      child: SafeArea(
-                        child: Container(
-                          color: colors["dark_background"],
-                          child: Row(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: <Widget>[
-                              Padding(
-                                padding: EdgeInsets.all(8.0),
-                                child: IconButton(
-                                  onPressed: () {
-                                    Navigator.pop(context);
-                                  },
-                                  icon: Icon(Icons.arrow_back_ios,
-                                      color: Colors.white),
-                                ),
-                              ),
-                              Container(
-                                width: MediaQuery.of(context).size.width / 1.3,
-                                height:
-                                    MediaQuery.of(context).size.height / 1.8,
-                                child: AspectRatio(
-                                  aspectRatio: 487 / 451,
-                                  child: ClipRRect(
-                                    borderRadius: BorderRadius.only(
-                                        bottomLeft: Radius.circular(36.0)),
-                                    child: widget.person.image.original == null
-                                        ? Container(
-                                            width: 42,
-                                            height: 42,
-                                            child: Center(
-                                              child: Icon(
-                                                Icons.broken_image,
-                                                color: colors['red_primary'],
-                                                size: 48,
-                                              ),
-                                            ),
-                                          )
-                                        : Image.network(
-                                            widget.person.image.original,
-                                            alignment:
-                                                FractionalOffset.topCenter,
-                                            fit: BoxFit.cover,
-                                          ),
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
+                  PersonDetailsTop(widget.person),
                   Container(
                     decoration: BoxDecoration(
                         color: colors["dark_primary"],
@@ -177,80 +120,7 @@ class _PersonDetailsState extends State<PersonDetails> {
                                 ),
                               ],
                             )),
-                        Padding(
-                          padding: EdgeInsets.symmetric(horizontal: 16),
-                          child: Text(
-                            'Known for',
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontWeight: FontWeight.bold,
-                              fontSize: 16,
-                            ),
-                          ),
-                        ),
-                        Container(
-                          height: 320,
-                          child: ListView(
-                            scrollDirection: Axis.horizontal,
-                            children: snapshot.data
-                                .map<Widget>((PersonDetailsModel item) {
-                              return InkWell(
-                                splashColor: Colors.transparent,
-                                highlightColor: Colors.transparent,
-                                onTap: () {
-                                  Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (context) =>
-                                              DetailsPage(item.embedded.show)));
-                                },
-                                child: Column(
-                                  children: <Widget>[
-                                    Container(
-                                      padding: EdgeInsets.all(8.0),
-                                      child: ClipRRect(
-                                        borderRadius:
-                                            BorderRadius.circular(18.0),
-                                        child: item.embedded.show.image
-                                                    .medium ==
-                                                null
-                                            ? Container(
-                                                color: colors["dark_primary"],
-                                                height: 210,
-                                                width: 150,
-                                                child: Icon(
-                                                  Icons.broken_image,
-                                                  color: colors['red_primary'],
-                                                  size: 42,
-                                                ),
-                                              )
-                                            : Image.network(
-                                                item.embedded.show.image.medium,
-                                                height: 210,
-                                                width: 150,
-                                              ),
-                                      ),
-                                    ),
-                                    Container(
-                                      width: 150,
-                                      child: Center(
-                                        child: Text(
-                                          item.embedded.show.name,
-                                          textAlign: TextAlign.center,
-                                          style: TextStyle(
-                                            color: Colors.white,
-                                            fontSize: 16,
-                                            fontWeight: FontWeight.bold,
-                                          ),
-                                        ),
-                                      ),
-                                    )
-                                  ],
-                                ),
-                              );
-                            }).toList(),
-                          ),
-                        ),
+                        KnownForList(snapshot.data)
                       ],
                     ),
                   ),

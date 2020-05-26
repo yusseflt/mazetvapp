@@ -1,6 +1,6 @@
 import 'dart:convert';
 
-import 'package:tv_test/model/persistent_object.dart';
+import 'package:mazetvapp/model/persistent_object.dart';
 
 List<Show> showFromJson(String str) =>
     List<Show>.from(json.decode(str).map((x) => Show.fromJson(x)));

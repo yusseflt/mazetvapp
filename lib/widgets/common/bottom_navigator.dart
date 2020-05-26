@@ -1,10 +1,10 @@
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:flutter/material.dart';
-import 'package:tv_test/blocs/favorites_bloc.dart';
-import 'package:tv_test/handlers/color_handler.dart';
-import 'package:tv_test/pages/favorites.dart';
-import 'package:tv_test/pages/home.dart';
-import 'package:tv_test/pages/people.dart';
+import 'package:mazetvapp/blocs/favorites_bloc.dart';
+import 'package:mazetvapp/handlers/color_handler.dart';
+import 'package:mazetvapp/pages/favorites.dart';
+import 'package:mazetvapp/pages/home.dart';
+import 'package:mazetvapp/pages/people.dart';
 
 class BottomNavigator extends StatefulWidget {
   @override

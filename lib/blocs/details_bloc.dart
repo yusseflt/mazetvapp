@@ -2,10 +2,10 @@ import 'dart:convert';
 
 import 'package:rxdart/rxdart.dart';
 import 'package:sembast/sembast.dart';
-import 'package:tv_test/managers/api_manager.dart';
-import 'package:tv_test/managers/database_manager.dart';
-import 'package:tv_test/model/embeded.dart';
-import 'package:tv_test/model/show.dart';
+import 'package:mazetvapp/managers/api_manager.dart';
+import 'package:mazetvapp/managers/database_manager.dart';
+import 'package:mazetvapp/model/embeded.dart';
+import 'package:mazetvapp/model/show.dart';
 
 class DetailsBloc {
   PublishSubject<Map> _detailsSubject;

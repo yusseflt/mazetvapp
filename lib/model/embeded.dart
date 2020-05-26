@@ -1,6 +1,6 @@
 import 'dart:convert';
 
-import 'package:tv_test/model/show.dart';
+import 'package:mazetvapp/model/show.dart';
 
 Embeded embededFromJson(String str) => Embeded.fromJson(json.decode(str));
 

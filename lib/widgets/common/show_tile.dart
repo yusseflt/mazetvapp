@@ -1,7 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:tv_test/model/show.dart';
-import 'package:tv_test/pages/details.dart';
+import 'package:mazetvapp/model/show.dart';
 
 class ShowTile extends StatefulWidget {
   final Show show;
@@ -17,8 +16,8 @@ class _ShowTileState extends State<ShowTile> {
   Widget build(BuildContext context) {
     return InkWell(
       onTap: () {
-        Navigator.push(context,
-            MaterialPageRoute(builder: (context) => DetailsPage(widget.show)));
+        Navigator.pushNamed(context, 'details',
+            arguments: {"show": widget.show});
       },
       child: Container(
         padding: EdgeInsets.all(8),

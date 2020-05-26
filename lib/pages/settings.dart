@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:tv_test/blocs/settings_bloc.dart';
-import 'package:tv_test/handlers/color_handler.dart';
+import 'package:mazetvapp/blocs/settings_bloc.dart';
+import 'package:mazetvapp/handlers/color_handler.dart';
 
 class SettingsPage extends StatefulWidget {
   @override

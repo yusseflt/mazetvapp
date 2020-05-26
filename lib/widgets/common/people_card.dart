@@ -1,9 +1,9 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:tv_test/handlers/color_handler.dart';
-import 'package:tv_test/handlers/text_handler.dart';
-import 'package:tv_test/model/embeded.dart';
-import 'package:tv_test/pages/person_details.dart';
+import 'package:mazetvapp/handlers/color_handler.dart';
+import 'package:mazetvapp/handlers/text_handler.dart';
+import 'package:mazetvapp/model/embeded.dart';
+import 'package:mazetvapp/pages/person_details.dart';
 
 class PeopleCard extends StatefulWidget {
   final Person person;

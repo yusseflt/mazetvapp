@@ -1,9 +1,9 @@
 import 'dart:convert';
 
 import 'package:rxdart/rxdart.dart';
-import 'package:tv_test/managers/api_manager.dart';
-import 'package:tv_test/model/embeded.dart';
-import 'package:tv_test/model/search.dart';
+import 'package:mazetvapp/managers/api_manager.dart';
+import 'package:mazetvapp/model/embeded.dart';
+import 'package:mazetvapp/model/search.dart';
 
 class SearchBloc {
   PublishSubject<List> _searchSubject;
@@ -25,7 +25,6 @@ class SearchBloc {
       list = List<Person>.from(
           json.decode(response.body).map((x) => Person.fromJson(x["person"])));
 
-      print((list[0] as Person).name);
       _searchSubject.sink.add(list);
     } else {
       response = await _api.searchShow(query);

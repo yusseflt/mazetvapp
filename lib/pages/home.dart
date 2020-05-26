@@ -1,11 +1,11 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:tv_test/blocs/home_bloc.dart';
-import 'package:tv_test/handlers/color_handler.dart';
-import 'package:tv_test/model/show.dart';
-import 'package:tv_test/widgets/home/featured_banner.dart';
-import 'package:tv_test/widgets/home/search_show.dart';
-import 'package:tv_test/widgets/common/show_tile.dart';
+import 'package:mazetvapp/blocs/home_bloc.dart';
+import 'package:mazetvapp/handlers/color_handler.dart';
+import 'package:mazetvapp/model/show.dart';
+import 'package:mazetvapp/widgets/common/search_bar.dart';
+import 'package:mazetvapp/widgets/home/featured_banner.dart';
+import 'package:mazetvapp/widgets/home/search_show.dart';
+import 'package:mazetvapp/widgets/common/show_tile.dart';
 
 class HomePage extends StatefulWidget {
   @override
@@ -117,50 +117,7 @@ class _HomePageState extends State<HomePage> {
                         ),
                       ),
                       SizedBox(height: 24),
-                      Container(
-                        height: 45,
-                        margin: EdgeInsets.symmetric(horizontal: 16.0),
-                        decoration: BoxDecoration(
-                            color: colors['dark_primary'],
-                            borderRadius: BorderRadius.circular(4.0)),
-                        child: InkWell(
-                          onTap: () {
-                            showSearch(
-                              context: context,
-                              delegate: SearchShow(snapshot.data),
-                              query: query,
-                            );
-                          },
-                          child: IgnorePointer(
-                            child: TextField(
-                              decoration: InputDecoration(
-                                prefixIcon: Icon(
-                                  Icons.search,
-                                  color: colors['dark_secondary'],
-                                ),
-                                labelText: 'Search',
-                                labelStyle: TextStyle(
-                                  color: colors['dark_secondary'],
-                                ),
-                                enabledBorder: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(8.0),
-                                  borderSide: BorderSide(
-                                    color: Colors.transparent,
-                                    width: 1,
-                                  ),
-                                ),
-                                border: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(8.0),
-                                  borderSide: BorderSide(
-                                    color: colors['red_primary'],
-                                    width: 1,
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ),
-                        ),
-                      ),
+                      SearchBar(query, snapshot.data, 'show'),
                       SizedBox(height: 16),
                       Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 16.0),

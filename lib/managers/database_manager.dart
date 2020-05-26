@@ -4,7 +4,7 @@ import 'package:path_provider/path_provider.dart';
 import 'package:path/path.dart';
 import 'package:sembast/sembast.dart';
 import 'package:sembast/sembast_io.dart';
-import 'package:tv_test/model/persistent_object.dart';
+import 'package:mazetvapp/model/persistent_object.dart';
 
 class DatabaseManager {
   static final DatabaseManager _singleton = DatabaseManager._();

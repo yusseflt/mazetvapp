@@ -1,6 +1,6 @@
 import 'package:rxdart/rxdart.dart';
-import 'package:tv_test/managers/api_manager.dart';
-import 'package:tv_test/model/embeded.dart';
+import 'package:mazetvapp/managers/api_manager.dart';
+import 'package:mazetvapp/model/embeded.dart';
 
 class PeopleBloc {
   PublishSubject<List<Cast>> _peopleSubject;

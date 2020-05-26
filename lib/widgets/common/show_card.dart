@@ -1,9 +1,8 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:palette_generator/palette_generator.dart';
-import 'package:tv_test/handlers/color_handler.dart';
-import 'package:tv_test/model/show.dart';
-import 'package:tv_test/pages/details.dart';
+import 'package:mazetvapp/handlers/color_handler.dart';
+import 'package:mazetvapp/model/show.dart';
+import 'package:mazetvapp/pages/details.dart';
 
 class ShowCard extends StatefulWidget {
   final Show show;
@@ -43,29 +42,12 @@ class _ShowCardState extends State<ShowCard> {
     super.initState();
     img = NetworkImage(
         widget.show.image.medium == null ? '' : widget.show.image.medium);
-
-    // if (widget.show.image.medium != null) {
-    //   getImagePalette().then((color) {
-    //     setState(() {
-    //       c = color;
-    //     });
-    //   });
-    // }
   }
 
   @override
   void didUpdateWidget(ShowCard oldWidget) {
-    // TODO: implement didUpdateWidget
     super.didUpdateWidget(oldWidget);
     img = NetworkImage(widget.show.image.medium);
-
-    // if (widget.show.image.medium != null) {
-    //   getImagePalette().then((color) {
-    //     setState(() {
-    //       c = color;
-    //     });
-    //   });
-    // }
   }
 
   @override
@@ -83,15 +65,8 @@ class _ShowCardState extends State<ShowCard> {
             ),
       child: InkWell(
         onTap: () {
-          Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (context) => DetailsPage(
-                widget.show,
-                favoriteBloc: widget.bloc,
-              ),
-            ),
-          );
+          Navigator.pushNamed(context, 'details',
+              arguments: {"show": widget.show, "favoritesBloc": widget.bloc});
         },
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,

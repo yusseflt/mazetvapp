@@ -1,4 +1,4 @@
-package com.example.tv_test
+package com.example.mazetvapp
 
 import androidx.annotation.NonNull;
 import io.flutter.embedding.android.FlutterActivity

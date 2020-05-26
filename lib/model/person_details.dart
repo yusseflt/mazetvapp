@@ -1,6 +1,6 @@
 import 'dart:convert';
 
-import 'package:tv_test/model/embeded.dart';
+import 'package:mazetvapp/model/embeded.dart';
 
 List<PersonDetailsModel> personDetailsFromJson(String str) =>
     List<PersonDetailsModel>.from(

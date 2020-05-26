@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:local_auth/local_auth.dart';
 import 'package:pinput/pin_put/pin_put.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:tv_test/handlers/color_handler.dart';
+import 'package:mazetvapp/handlers/color_handler.dart';
 
 class PinPage extends StatefulWidget {
   @override
@@ -19,8 +19,8 @@ class _PinPageState extends State<PinPage> {
 
   List<BiometricType> _availableBiometrics;
 
-  String _authorized = 'Not Authorized';
-  bool _isAuthenticating = false;
+  String authorized = 'Not Authorized';
+  bool isAuthenticating = false;
 
   validate() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -50,19 +50,19 @@ class _PinPageState extends State<PinPage> {
     bool authenticated = false;
     try {
       setState(() {
-        _isAuthenticating = true;
-        _authorized = 'Authenticating';
+        isAuthenticating = true;
+        authorized = 'Authenticating';
       });
       authenticated = await auth.authenticateWithBiometrics(
           localizedReason: 'Scan your fingerprint to authenticate',
           useErrorDialogs: true,
           stickyAuth: true);
       setState(() {
-        _isAuthenticating = false;
-        _authorized = 'Authenticating';
+        isAuthenticating = false;
+        authorized = 'Authenticating';
       });
     } catch (e) {
-      print("\n\n\n\n\n Errp aqui? $e");
+      print(e);
     }
     if (!mounted) return;
 
@@ -73,12 +73,8 @@ class _PinPageState extends State<PinPage> {
 
     final String message = authenticated ? 'Authorized' : 'Not Authorized';
     setState(() {
-      _authorized = message;
+      authorized = message;
     });
-  }
-
-  void _cancelAuthentication() {
-    auth.stopAuthentication();
   }
 
   verifyFingerprint() async {

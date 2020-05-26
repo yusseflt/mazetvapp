@@ -5,13 +5,11 @@ import 'package:flutter/material.dart';
 import 'package:pinput/pin_put/pin_put.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:tv_test/handlers/color_handler.dart';
-import 'package:tv_test/managers/api_manager.dart';
+import 'package:mazetvapp/handlers/color_handler.dart';
 import 'package:local_auth/local_auth.dart';
 
 class SettingsBloc {
   PublishSubject<Map> _settingsSubject;
-  ApiManager _api = ApiManager();
 
   Stream<Map> get settingsObservable => _settingsSubject.stream;
 

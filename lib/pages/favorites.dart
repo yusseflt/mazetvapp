@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:tv_test/handlers/color_handler.dart';
-import 'package:tv_test/model/show.dart';
-import 'package:tv_test/widgets/common/show_card.dart';
+import 'package:mazetvapp/handlers/color_handler.dart';
+import 'package:mazetvapp/model/show.dart';
+import 'package:mazetvapp/widgets/common/show_card.dart';
 
 class FavoritesPage extends StatefulWidget {
   final bloc;
@@ -12,8 +12,6 @@ class FavoritesPage extends StatefulWidget {
 }
 
 class _FavoritesPageState extends State<FavoritesPage> {
-  final ScrollController _controller = ScrollController();
-
   @override
   void initState() {
     super.initState();

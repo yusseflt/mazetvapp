@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:tv_test/handlers/color_handler.dart';
-import 'package:tv_test/handlers/scroll_glow_handler.dart';
-import 'package:tv_test/managers/route_manager.dart';
+import 'package:mazetvapp/handlers/color_handler.dart';
+import 'package:mazetvapp/handlers/scroll_glow_handler.dart';
+import 'package:mazetvapp/managers/route_manager.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();

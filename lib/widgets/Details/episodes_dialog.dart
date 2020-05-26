@@ -1,8 +1,7 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:tv_test/handlers/color_handler.dart';
-import 'package:tv_test/handlers/text_handler.dart';
-import 'package:tv_test/model/embeded.dart';
+import 'package:mazetvapp/handlers/color_handler.dart';
+import 'package:mazetvapp/handlers/text_handler.dart';
+import 'package:mazetvapp/model/embeded.dart';
 
 class EpisodesDialog extends StatefulWidget {
   final Episode episode;

@@ -1,8 +1,8 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:tv_test/handlers/color_handler.dart';
-import 'package:tv_test/model/show.dart';
-import 'package:tv_test/pages/details.dart';
+import 'package:mazetvapp/handlers/color_handler.dart';
+import 'package:mazetvapp/model/show.dart';
+import 'package:mazetvapp/pages/details.dart';
 
 class FeaturedBanner extends StatefulWidget {
   final Show show;

@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:tv_test/pages/details.dart';
-import 'package:tv_test/pages/person_details.dart';
-import 'package:tv_test/pages/pin.dart';
-import 'package:tv_test/pages/settings.dart';
-import 'package:tv_test/widgets/common/bottom_navigator.dart';
+import 'package:mazetvapp/pages/details.dart';
+import 'package:mazetvapp/pages/person_details.dart';
+import 'package:mazetvapp/pages/pin.dart';
+import 'package:mazetvapp/pages/settings.dart';
+import 'package:mazetvapp/widgets/common/bottom_navigator.dart';
 
 final routes = {
   'pinPage': (context) => PinPage(),

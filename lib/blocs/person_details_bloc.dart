@@ -1,6 +1,6 @@
 import 'package:rxdart/rxdart.dart';
-import 'package:tv_test/managers/api_manager.dart';
-import 'package:tv_test/model/person_details.dart';
+import 'package:mazetvapp/managers/api_manager.dart';
+import 'package:mazetvapp/model/person_details.dart';
 
 class PersonDetailsBloc {
   PublishSubject<List<PersonDetailsModel>> _personDetailsSubject;

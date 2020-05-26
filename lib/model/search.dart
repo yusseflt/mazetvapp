@@ -1,6 +1,6 @@
 import 'dart:convert';
 
-import 'package:tv_test/model/show.dart';
+import 'package:mazetvapp/model/show.dart';
 
 List<SearchModel> searchModelFromJson(String str) => List<SearchModel>.from(
     json.decode(str).map((x) => SearchModel.fromJson(x)));

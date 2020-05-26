@@ -1,4 +1,4 @@
-import 'package:tv_test/handlers/request_handler.dart';
+import 'package:mazetvapp/handlers/request_handler.dart';
 
 class ApiManager {
   static final BASE_API_URL = "http://api.tvmaze.com";

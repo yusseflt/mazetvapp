@@ -1,8 +1,8 @@
 import 'dart:convert';
 
 import 'package:rxdart/rxdart.dart';
-import 'package:tv_test/managers/database_manager.dart';
-import 'package:tv_test/model/show.dart';
+import 'package:mazetvapp/managers/database_manager.dart';
+import 'package:mazetvapp/model/show.dart';
 
 class FavoritesBloc {
   PublishSubject<List<Show>> _favoritesSubject;
